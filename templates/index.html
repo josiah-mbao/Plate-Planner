@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plate Planner</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Hi there! Let's make a recipe with what you have in your kitchen...</h1>
+    <div id="app">
+        <form id="search-form">
+            <input type="text" id="query" placeholder="Search for recipes..." required>
+            <button type="submit">Search</button>
+        </form>
+        <div id="loading-spinner" style="display:none;">
+            <img src="/static/loader.gif" alt="Why not loading bruhhhh...">
+        </div>
+        <div id="results"></div>
+    </div>
+    
+    <script src="/static/main.js"></script>
+</body>
+</html>
