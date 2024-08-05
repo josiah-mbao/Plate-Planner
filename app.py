@@ -51,5 +51,16 @@ def save_favorite(recipe_id):
     else:
         return jsonify({'error': 'Recipe already in favorites'}), 400
 
+@app.route('/favorites', methods=['GET'])
+def get_favorites():
+    favorite_recipes = []
+    for recipe_id in favorites:
+        # Fetch recipe details (you can use a similar method as in fetchRecipeDetails)
+        response = requests.get(f"https://api.spoonacular.com/recipes/{recipe_id}/information?apiKey={API_KEY}")
+        if response.status_code == 200:
+            favorite_recipes.append(response.json())
+    return jsonify(favorite_recipes), 200
+
+
 if __name__ == '__main__':
     app.run(debug=True)

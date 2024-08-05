@@ -121,4 +121,34 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(`Error: ${error.message}`);
         }
     }
+
+    let viewFavoritesButton = document.getElementById('view-favorites-button');
+    if (!viewFavoritesButton) {
+        viewFavoritesButton = document.createElement('button');
+        viewFavoritesButton.id = 'view-favorites-button';
+        viewFavoritesButton.textContent = 'View Favorites';
+        document.body.appendChild(viewFavoritesButton);
+
+        viewFavoritesButton.addEventListener('click', async () => {
+            resultsDiv.innerHTML = '';
+            loadingSpinner.style.display = 'block';
+
+            try {
+                const response = await fetch('/favorites');
+                const data = await response.json();
+
+                loadingSpinner.style.display = 'none';
+
+                if (response.ok) {
+                    displayResults(data);
+                } else {
+                    resultsDiv.innerHTML = `<p>${data.error}</p>`;
+                }
+            } catch (error) {
+                loadingSpinner.style.display = 'none';
+                resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        });
+    }
+
 });
