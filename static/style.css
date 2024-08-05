@@ -58,3 +58,11 @@ button {
     height: 50px;
 }
 
+#logo {
+    transition: all 0.9s ease;
+    border-radius: 100%;
+}
+
+#logo:hover {
+    content: url('logo_hover.png')
+}
