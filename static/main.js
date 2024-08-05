@@ -101,6 +101,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const instructions = document.createElement('div');
         instructions.innerHTML = details.instructions;  // Set as HTML to render properly
         resultsDiv.appendChild(instructions);
+
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save to Favorites';
+        saveButton.addEventListener('click', () => saveToFavorites(details.id));
+        resultsDiv.appendChild(saveButton);
     }
     
+    async function saveToFavorites(recipeId) {
+        try {
+            const response = await fetch(`/save-favorite/${recipeId}`, { method: 'POST' });
+            const data = await response.json();
+            if (response.ok) {
+                alert('Recipe saved to favorites!');
+            } else {
+                alert(`Error: ${data.error}`);
+            }
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        }
+    }
 });

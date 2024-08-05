@@ -3,6 +3,7 @@ import requests
 import os
 
 app = Flask(__name__)
+favorites = []
 
 API_KEY = os.getenv('SPOONACULAR_API_KEY')
 
@@ -40,6 +41,15 @@ def get_detail(recipe_id):
 
     data = response.json()
     return jsonify(data)
+
+@app.route('/save-favorite/<int:recipe_id>', methods=['POST'])
+def save_favorite(recipe_id):
+    # Simulate saving the recipe to a database or list
+    if recipe_id not in favorites:
+        favorites.append(recipe_id)
+        return jsonify({'success': True}), 201
+    else:
+        return jsonify({'error': 'Recipe already in favorites'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
