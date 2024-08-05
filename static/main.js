@@ -32,6 +32,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    async function fetchRecipeDetails(recipeId) {
+        try {
+            const response = await fetch(`/recipe/${recipeId}`);
+            const data = await response.json();
+
+            if (response.ok) {
+                displayRecipeDetails(data);
+            } else {
+                resultsDiv.innerHTML = `<p>${data.error}</p>`;
+            }
+        } catch (error) {
+            resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+        }
+    }
+
     function displayResults(results) {
         resultsDiv.innerHTML = '';
         if (results.length === 0) {
@@ -42,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         results.forEach(recipe => {
             const recipeDiv = document.createElement('div');
             recipeDiv.classList.add('recipe');
+            recipeDiv.setAttribute('data-id', recipe.id)
 
             const recipeTitle = document.createElement('h2');
             recipeTitle.textContent = recipe.title;
@@ -53,7 +69,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 recipeDiv.appendChild(recipeImage);
             }
 
+            recipeDiv.addEventListener('click', () => {  // Add click event listener
+                fetchRecipeDetails(recipe.id);
+            });
+
             resultsDiv.appendChild(recipeDiv);
         });
     }
+
+    function displayRecipeDetails(details) {
+        resultsDiv.innerHTML = '';
+    
+        const recipeTitle = document.createElement('h2');
+        recipeTitle.textContent = details.title;
+        resultsDiv.appendChild(recipeTitle);
+    
+        if (details.image) {
+            const recipeImage = document.createElement('img');
+            recipeImage.src = details.image;
+            resultsDiv.appendChild(recipeImage);
+        }
+    
+        const ingredientsList = document.createElement('ul');
+        details.extendedIngredients.forEach(ingredient => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`;
+            ingredientsList.appendChild(listItem);
+        });
+        resultsDiv.appendChild(ingredientsList);
+    
+        const instructions = document.createElement('div');
+        instructions.innerHTML = details.instructions;  // Set as HTML to render properly
+        resultsDiv.appendChild(instructions);
+    }
+    
 });

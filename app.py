@@ -17,7 +17,7 @@ def search():
         return jsonify({"error": "No query provided"}), 400
 
     response = requests.get(
-        f'https://api.spoonacular.com/recipes/complexSearch',
+        'https://api.spoonacular.com/recipes/complexSearch',
         params={'query': query, 'apiKey': API_KEY}
     )
 
@@ -28,6 +28,18 @@ def search():
     
     return jsonify(data)
 
+@app.route('/recipe/<int:recipe_id>', methods=['GET'])
+def get_detail(recipe_id):
+    response = requests.get(
+        f'https://api.spoonacular.com/recipes/{recipe_id}/information',
+        params={'apiKey': API_KEY}
+    )
+
+    if response.status_code != 200:
+        return jsonify({"error": "Failed to fetch recipe details"}), response.status_code
+
+    data = response.json()
+    return jsonify(data)
+
 if __name__ == '__main__':
     app.run(debug=True)
-

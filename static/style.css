@@ -41,11 +41,27 @@ button {
     padding: 10px;
     margin: 10px 0;
     background-color: #fff;
+    cursor: pointer;
+    margin: 20px;
 }
 
 .recipe img {
     max-width: 100%;
     border-radius: 4px;
+    height: auto;
+}
+
+#results h2 {
+    margin-top: 20px;
+}
+
+#results ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#results ul li {
+    margin: 5px 0;
 }
 
 #loading-spinner {
